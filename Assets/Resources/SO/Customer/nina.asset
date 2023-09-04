@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13c1948cfcf1a7b49a512cf9704e8a81, type: 3}
+  m_Name: nina
+  m_EditorClassIdentifier: 
+  name: "\u59AE\u5A1C"
+  desc: "\u5E97\u4E3B"
+  alliegance: "\u81EA\u7531"
+  friends:
+  - {fileID: 11400000, guid: 5fce30b55c4369e499ca703e891e0628, type: 2}
+  - {fileID: 11400000, guid: b5f5be0d501c0004f9b63dfa70de7413, type: 2}
