@@ -1,48 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Util;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class Transaction
-{
-    public CustomerSO customer;
-    public ItemSO item;
-    public TransactionSO transaction;
-
-    public List<int> playerBids=new List<int>();
-    public List<int> customerBids = new List<int>();
-    public int playerClosestBid()
-    {
-        var res = int.MaxValue;
-        foreach (var bid in playerBids)
-        {
-            res = math.min(res, bid);
-        }
-
-        return res;
-
-    }
-
-    public void addPlayerBid(int price)
-    {
-        playerBids.Add(price);
-    }
-
-    public void addCustoemrBid(int price)
-    {
-        customerBids.Add(price);
-    }
-    
-    
-    public Transaction(CustomerSO c, ItemSO i, TransactionSO t)
-    {
-        customer = c;
-        item = i;
-        transaction = t;
-    }
-}
 
 public class TransactionManager : Singleton<TransactionManager>
 {
@@ -52,15 +15,19 @@ public class TransactionManager : Singleton<TransactionManager>
     private void Start()
     {
         //randomly add some transactions
+
+        var CustomerList = AssetManager.AllCustomers.ToList();
+        var itemList = InventoryManager.Instance.items.ToList();
+        
         for (int i = 0; i < customerCount; i++)
         {
-            AddTransaction(AssetManager.AllCustomers.RandomItem(),AssetManager.AllItems.RandomItem(),AssetManager.AllTransactions.RandomItem());
+            AddTransaction(CustomerList.PickItem(),itemList.PickItem(),AssetManager.AllTransactions.RandomItem());
         }
         ShowTransaction();
     }
 
     private Transaction currentTransaction => transactionList.Count == 0 ? null : transactionList[0];
-    public void AddTransaction(CustomerSO customer, ItemSO item, TransactionSO tran)
+    public void AddTransaction(CustomerSO customer, BaseItem item, TransactionSO tran)
     {
         var transaction = new Transaction(customer, item, tran);
         transactionList.Add(transaction);
@@ -97,10 +64,13 @@ public class TransactionManager : Singleton<TransactionManager>
         
     }
 
-    public void SucceedTransaction()
+    public void SucceedTransaction(int finalValue)
     {
         // get reward
+        ResourceManager.Instance.AddGold(finalValue);
         // pay item
+        InventoryManager.Instance.RemoveItem(currentTransaction.item);
+        
         EndOneTransaction();
     }
 

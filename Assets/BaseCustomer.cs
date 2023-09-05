@@ -6,6 +6,9 @@ public class BaseCustomer : MonoBehaviour
 {
 
     public CustomerSO customerSO;
-    public TransactionSO transactionSO;
-    public ItemSO itemSO;
+
+    public BaseCustomer(CustomerSO so)
+    {
+        customerSO = so;
+    }
 }

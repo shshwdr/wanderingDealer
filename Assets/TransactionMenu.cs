@@ -56,7 +56,7 @@ public class TransactionMenu : MonoBehaviour
 
         if (currentTransaction.playerBids.Count == 0)
         {
-            var actualCost = currentTransaction.item.actualCost;
+            var actualCost = currentTransaction.item.itemSO.actualCost;
             int customerCost = (int)(actualCost * Random.Range(0.9f, 1.3f));
             currentTransaction.customerBids.Add(customerCost);
             itemMenu.init(currentTransaction.item.name,actualCost,customerCost);
@@ -68,7 +68,7 @@ public class TransactionMenu : MonoBehaviour
         }
         else
         {
-            var actualCost = currentTransaction.item.actualCost;
+            var actualCost = currentTransaction.item.itemSO.actualCost;
             int customerCost = (int)(actualCost * Random.Range(0.9f, 1.3f));
             var lastPlayerBid = currentTransaction.playerBids.LastItem();
             var lastCustomerBid = currentTransaction.customerBids.LastItem();
@@ -80,7 +80,7 @@ public class TransactionMenu : MonoBehaviour
                 {
                     new ButtonOption("和气生财",new UnityAction(() =>
                     {
-                        TransactionManager.Instance.SucceedTransaction();
+                        TransactionManager.Instance.SucceedTransaction(currentTransaction.playerBids.LastItem());
                     })),
                 });
             }
@@ -102,7 +102,7 @@ public class TransactionMenu : MonoBehaviour
                                 {
                                     new ButtonOption("下次再来",new UnityAction(() =>
                                     {
-                                        TransactionManager.Instance.SucceedTransaction();
+                                        TransactionManager.Instance.SucceedTransaction(currentTransaction.playerBids.LastItem());
                                     })),
                                 });
                             }
@@ -127,7 +127,8 @@ public class TransactionMenu : MonoBehaviour
                     {
                         new ButtonOption("好吧好吧",new UnityAction(() =>
                         {
-                            TransactionManager.Instance.SucceedTransaction();
+                            
+                            TransactionManager.Instance.SucceedTransaction(customerCanAcceptPrice);
                         })),
                         new ButtonOption("不行我不能接受",new UnityAction(() =>
                         {
